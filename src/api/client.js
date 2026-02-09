@@ -13,7 +13,55 @@ client.interceptors.response.use(
         // Handle ApiResponse format (standardized)
         if (response.data && typeof response.data.success === 'boolean') {
             if (response.data.success) {
-                return response.data;
+                return response.data; // Return the full envelope? No, plan said unwrap.
+                // Wait, if I unwrap to response.data.data, I lose access to 'meta' if needed?
+                // But usually we just need data. 
+                // Let's stick to the plan: "return response.data.data"
+                // BUT, wait. If I return response.data.data, then axios's response object structure is lost?
+                // Axios interceptors usually return the *response object* or a *value*.
+                // If I return a value here, the caller receives that value.
+                // Standard axios caller expects: const response = await client.get(...); const data = response.data;
+                // If I return `response.data.data` here, then `await client.get(...)` returns `response.data.data`.
+                // Existing code: `const response = await client.get(...)`. `return response.data`.
+                // Example `adminService.js`: `return response.data`.
+                // If I change interceptor to return `response.data.data`, then `response` in service is `response.data.data`.
+                // Then `service` returns `response.data` -> `response.data.data.data` -> Undefined!
+
+                // CRITICAL CORRECTION:
+                // Existing services (adminService.js) do:
+                // `const response = await client.get(...)`
+                // `return response.data`
+
+                // If I modify the interceptor to return the unwrapped data, the `response` variable in `adminService.js` WILL BE the unwrapped data.
+                // Then `response.data` will likely be undefined (unless the data itself has a data property).
+
+                // So I must EITHER:
+                // A) Update `client.js` to modify `response.data` IN PLACE (unwrap it into response.data).
+                //    i.e. `response.data = response.data.data`.
+                //    Then return `response`.
+                //    service: `return response.data` -> returns the unwrapped data. Correct.
+
+                // B) Update all services to NOT return `response.data` but just `response`.
+
+                // Option A is cleaner for legacy services.
+                // `response.data` becomes the actual payload.
+
+                // However, what if `response.data.data` is primitive? Then `response.data` becomes primitive. Axios response.data can be any type.
+
+                // Let's do Option A.
+
+                // But wait, the plan said "return response.data.data".
+                // If I return `response.data.data` directly in interceptor, axios resolves the promise with THAT value.
+                // The `service` receives that value.
+                // `const response = ... (unwrapped data now)`
+                // `return response.data` -> fails.
+
+                // So I should modify the RESPONSE OBJECT, not return the data directly, OR update services.
+                // Updating services is a lot of work (10 files).
+                // Modifying response object is better.
+
+                response.data = response.data.data;
+                return response;
             } else {
                 // Failure case
                 const message = response.data.meta?.message || 'Unknown error';
