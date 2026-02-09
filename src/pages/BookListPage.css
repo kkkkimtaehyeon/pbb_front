@@ -1,0 +1,272 @@
+/* Existing styles */
+.aladin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--bg-white);
+    font-family: var(--font-base);
+    color: var(--text-primary);
+}
+
+.page-header h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.header-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: #333;
+    padding: 10px 20px;
+    border-radius: 40px;
+}
+
+.header-tabs button {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.header-tabs button.active {
+    background-color: var(--primary-pink);
+}
+
+.content-wrapper {
+    display: flex;
+    gap: 30px;
+}
+
+.sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--bg-border);
+    padding-right: 10px;
+}
+
+/* Category Tree Styles */
+.category-list {
+    margin: 0;
+    padding: 0;
+}
+
+.category-list.depth-0>li>a {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.category-list li {
+    padding: 4px 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.category-list.depth-1 {
+    padding-left: 10px;
+    border-left: 2px solid #eee;
+    margin-left: 5px;
+}
+
+.category-list a:hover {
+    color: var(--primary-blue);
+    text-decoration: underline;
+}
+
+
+.book-list-scetion {
+    flex-grow: 1;
+}
+
+.date-display {
+    background-color: var(--bg-light-gray);
+    padding: 10px;
+    border: 1px solid var(--bg-border);
+    margin-bottom: 20px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.book-item {
+    display: flex;
+    gap: 20px;
+    padding: 25px 0;
+    border-bottom: 1px solid var(--bg-border);
+}
+
+.book-rank-col {
+    width: 40px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.rank-num {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.book-cover-col {
+    width: 120px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-cover {
+    width: 100%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8px;
+    transition: transform 0.2s;
+}
+
+.book-cover:hover {
+    transform: scale(1.03);
+}
+
+.preview-btn {
+    font-size: 11px;
+    border: 1px solid #ccc;
+    padding: 4px 12px;
+    border-radius: 3px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.book-info-col {
+    flex-grow: 1;
+}
+
+.book-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-blue);
+    margin-right: 8px;
+}
+
+.book-title:hover {
+    text-decoration: underline;
+}
+
+.book-tag {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    vertical-align: middle;
+}
+
+.book-meta {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.book-price-row {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.std-price {
+    text-decoration: line-through;
+    color: var(--text-tertiary);
+}
+
+.arrow {
+    margin: 0 5px;
+    color: var(--text-tertiary);
+}
+
+.sale-price {
+    color: var(--primary-pink);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.discount {
+    color: var(--primary-pink);
+    margin-left: 5px;
+}
+
+.points {
+    margin-left: 10px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.book-rating {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.book-rating .star {
+    color: var(--primary-pink);
+}
+
+.book-summary-preview {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    background-color: #f9f9f9;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.book-action-col {
+    width: 120px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.book-action-col button {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--primary-pink);
+    color: white;
+}
+
+.btn-seconday {
+    background-color: white;
+    border: 1px solid var(--primary-pink);
+    color: var(--primary-pink);
+}
+
+.btn-tertiary {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: var(--text-secondary);
+}
+
+.pagination {
+    margin-top: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.pagination button {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    background-color: white;
+}

@@ -1,0 +1,57 @@
+.mypage-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    gap: 40px;
+}
+
+.mypage-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.mypage-sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.mypage-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mypage-sidebar li {
+    padding: 15px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.mypage-sidebar li:hover {
+    background-color: #f9f9f9;
+}
+
+.mypage-sidebar li.active {
+    font-weight: bold;
+    color: #007bff;
+    border-left: 3px solid #007bff;
+    padding-left: 7px;
+}
+
+.mypage-content {
+    flex-grow: 1;
+    background: #fff;
+    min-height: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mypage-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}

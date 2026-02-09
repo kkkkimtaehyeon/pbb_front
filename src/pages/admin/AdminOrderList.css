@@ -1,0 +1,89 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.page-header h2 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.filters select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.admin-table {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.admin-table td {
+    padding: 15px;
+    border-bottom: 1px solid #ecf0f1;
+    color: #2c3e50;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-badge.ordered {
+    background-color: #fff3e0;
+    color: #e67e22;
+}
+
+.status-badge.paid {
+    background-color: #e8f8f5;
+    color: #2ecc71;
+}
+
+.status-badge.shipping {
+    background-color: #eaf2f8;
+    color: #3498db;
+}
+
+.status-badge.delivered {
+    background-color: #ebf5fb;
+    color: #2980b9;
+}
+
+.status-badge.cancelled {
+    background-color: #fdedec;
+    color: #e74c3c;
+}
+
+.action-btn {
+    padding: 5px 10px;
+    border: 1px solid #bdc3c7;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #7f8c8d;
+}
+
+.action-btn:hover {
+    background-color: #f5f6fa;
+    color: #2c3e50;
+}

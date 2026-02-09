@@ -1,0 +1,92 @@
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #333;
+}
+
+.login-tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #666;
+    font-weight: bold;
+}
+
+.tab.active {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
+    margin-bottom: -2px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    /* Fix padding issue */
+}
+
+.login-submit-btn {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-submit-btn:hover {
+    background-color: #0056b3;
+}
+
+.error-text {
+    color: red;
+    font-size: 12px;
+}
+
+.login-footer {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.login-footer a {
+    color: #666;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.signup-link {
+    font-weight: bold;
+    color: var(--primary-pink) !important;
+}
