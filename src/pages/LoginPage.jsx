@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { login } from '../api/authService';
+import { login, oauthLogin } from '../api/authService';
 import { useAuth } from '../context/AuthContext';
 import './LoginPage.css';
 
@@ -51,6 +51,20 @@ const LoginPage = () => {
 
                 <button type="submit" className="login-submit-btn">로그인</button>
             </form>
+
+            <button
+                type="button"
+                className="payco-login-btn"
+                onClick={async () => {
+                    try {
+                        await oauthLogin('payco');
+                    } catch (error) {
+                        console.error('Payco login error:', error);
+                    }
+                }}
+            >
+                PAYCO 로그인
+            </button>
 
             <div className="login-footer">
                 <Link to="/signup" className="signup-link">회원가입</Link>

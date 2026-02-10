@@ -90,3 +90,20 @@
     font-weight: bold;
     color: var(--primary-pink) !important;
 }
+
+.payco-login-btn {
+    background-color: #e6433e;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.payco-login-btn:hover {
+    background-color: #cc322d;
+}
