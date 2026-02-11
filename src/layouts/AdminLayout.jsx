@@ -5,7 +5,7 @@ const AdminLayout = () => {
     const location = useLocation();
 
     const menuItems = [
-        { path: '/admin/dashboard', label: '대시보드' },
+        // { path: '/admin/dashboard', label: '대시보드' },
         { path: '/admin/orders', label: '주문/배송 관리' },
         { path: '/admin/products', label: '상품 관리' },
         // { path: '/admin/members', label: '회원 관리' },
