@@ -1,68 +1,3 @@
-// import axios from 'axios';
-// const API_URL = import.meta.env.VITE_API_URL;
-// const client = axios.create({
-//     baseURL: API_URL,
-//     headers: {
-//         'Content-Type': 'application/json',
-//     },
-//     withCredentials: true, // Cookies (access & refresh) are handled automatically
-// });
-
-// client.interceptors.response.use(
-//     (response) => {
-//         // Handle ApiResponse format (standardized)
-//         if (response.data && typeof response.data.success === 'boolean') {
-//             if (response.data.success) {
-//                 return response.data;
-//             } else {
-//                 // Failure case
-//                 console.log("error response", response);
-//                 const message = response.data.meta?.message || 'Unknown error';
-//                 const error = new Error(message);
-//                 error.response = response;
-//                 return Promise.reject(error);
-//             }
-//         }
-
-//         // Fallback for non-standard responses (if any)
-//         return response;
-//     },
-//     async (error) => {
-//         const originalRequest = error.config;
-
-//         if (error.response?.status === 401) {
-//             try {
-//                 // Attempt to reissue via cookie. Server should update the access token cookie.
-//                 await axios.post(`${API_URL}/auth/reissue`, {}, {
-//                     withCredentials: true
-//                 });
-
-//                 // Retry original request (browser will attach new cookies automatically)
-//                 return client(originalRequest);
-//             } catch (reissueError) {
-//                 console.error("Token reissue failed", reissueError);
-//                 // Optionally redirect to login or notify user (handled by context usually)
-//                 return Promise.reject(reissueError);
-//             }
-//         }
-
-//         // Handle standard API errors (where server returns meta info in error response)
-//         if (error.response && error.response.data && error.response.data.meta) {
-//             const { message, errorCode } = error.response.data.meta;
-//             if (message) {
-//                 error.message = message;
-//             }
-//             if (errorCode) {
-//                 error.code = errorCode; // Attach error code if available
-//             }
-//         }
-
-//         return Promise.reject(error);
-//     }
-// );
-
-// export default client;
-
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -76,7 +11,6 @@ const client = axios.create({
 
 client.interceptors.response.use(
     (response) => {
-        console.log("response", response);
         // [성공 처리] HTTP 상태 코드가 200번대일 때 여기로 들어옵니다.
         if (response.data && typeof response.data.success === 'boolean') {
             if (response.data.success) {
@@ -95,7 +29,6 @@ client.interceptors.response.use(
     async (error) => {
         // [에러 처리] HTTP 상태 코드가 401, 403, 500 등일 때 여기로 들어옵니다.
         const originalRequest = error.config;
-        console.log("error", error);
 
         // 1. 401 에러이고, 이전에 재발급 시도를 한 적이 없는 요청일 경우에만 실행 (무한 루프 방지)
         if (error.response?.status === 401 && !originalRequest._retry) {
