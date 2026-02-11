@@ -46,7 +46,7 @@ const AdminOrderList = () => {
         <div className="admin-page-container">
             <div className="page-header">
                 <h2>주문 관리</h2>
-                <div className="filters">
+                {/* <div className="filters">
                     <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                         <option value="">전체 상태</option>
                         {orderStatuses.map(status => (
@@ -55,7 +55,7 @@ const AdminOrderList = () => {
                             </option>
                         ))}
                     </select>
-                </div>
+                </div> */}
             </div>
 
             <table className="admin-table">

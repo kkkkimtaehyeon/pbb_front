@@ -88,12 +88,6 @@ const AdminOrderDetailPage = () => {
                     <div style={{ color: '#666' }}>주문 일자</div>
                     <div>{detail.orderedAt}</div>
 
-                    <div style={{ color: '#666' }}>주문 상태</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        {/* Order level status is removed from API, maybe derive or just remove */}
-                        <span style={{ fontWeight: 'bold', color: '#007bff' }}>-</span>
-                    </div>
-
                     <div style={{ color: '#666' }}>받는 사람</div>
                     <div>{detail.address?.receiver} / {detail.address?.phoneNumber}</div>
 
