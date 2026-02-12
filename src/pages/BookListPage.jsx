@@ -214,7 +214,22 @@ const BookListPage = () => {
 
                     <div className="pagination">
                         <button onClick={handlePrevPage} disabled={page === 0}>&lt;</button>
-                        <span className="page-info">{page + 1}</span>
+
+                        {Array.from({ length: 5 }, (_, i) => {
+                            const startPage = Math.floor(page / 5) * 5;
+                            const p = startPage + i;
+                            if (p >= totalPages) return null;
+                            return (
+                                <button
+                                    key={p}
+                                    onClick={() => setPage(p)}
+                                    className={page === p ? 'active' : ''}
+                                >
+                                    {p + 1}
+                                </button>
+                            );
+                        })}
+
                         <button onClick={handleNextPage} disabled={page >= totalPages - 1}>&gt;</button>
                     </div>
                 </main>
