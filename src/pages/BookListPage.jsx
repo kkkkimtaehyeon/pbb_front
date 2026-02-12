@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { getBookList } from '../api/bookService';
 import { getCategories } from '../api/categoryService';
 import { addToCart } from '../api/cartService';
@@ -7,6 +7,11 @@ import './BookListPage.css';
 
 const BookListPage = () => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const categoryId = searchParams.get('categoryId');
+
+    // Reset page to 0 when category changes (we should handle this in useEffect or a separate effect)
+
     const [books, setBooks] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -14,12 +19,26 @@ const BookListPage = () => {
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
+    // Reset page when category changes
+    useEffect(() => {
+        setPage(0);
+    }, [categoryId]);
+
     useEffect(() => {
         const fetchBooksAndCategories = async () => {
             try {
                 setLoading(true);
+                // Fetch categories only once or if needed? Usually categories are static for the session, 
+                // but let's keep it simple and fetch them in parallel for now, or move out?
+                // Actually `getBookList` now needs `categoryId`.
+
+                // We might want to separate category fetching if it's constant, but existing code fetches both.
+                // Let's keep fetching both or check?
+                // The existing code re-fetches categories every time page changes... that's inefficient but let's stick to the pattern for now, 
+                // just adding the param.
+
                 const [bookData, categoryData] = await Promise.all([
-                    getBookList(page),
+                    getBookList(page, 10, [], categoryId),
                     getCategories()
                 ]);
 
@@ -35,7 +54,7 @@ const BookListPage = () => {
         };
 
         fetchBooksAndCategories();
-    }, [page]);
+    }, [page, categoryId]);
 
     const handlePrevPage = () => {
         if (page > 0) setPage(page - 1);
@@ -77,12 +96,22 @@ const BookListPage = () => {
         }
     };
 
+    const handleCategoryClick = (id) => {
+        setSearchParams({ categoryId: id });
+        setPage(0); // Reset page manually just in case, though the effect does it too
+    };
+
     const renderCategories = (cats, depth = 0) => {
         return (
             <ul className={`category-list depth-${depth}`}>
                 {cats.map((cat) => (
                     <li key={cat.id}>
-                        <a href="#">{cat.name}</a>
+                        <span
+                            onClick={() => handleCategoryClick(cat.id)}
+                            style={{ cursor: 'pointer', fontWeight: categoryId == cat.id ? 'bold' : 'normal' }}
+                        >
+                            {cat.name}
+                        </span>
                         {cat.children && cat.children.length > 0 && renderCategories(cat.children, depth + 1)}
                     </li>
                 ))}
@@ -151,10 +180,10 @@ const BookListPage = () => {
                                             <Link to={`/books/${book.id}`} className="book-title">
                                                 {book.title}
                                             </Link>
-                                            <span className="book-tag">[{book.productType || 'Domestic'}]</span>
+                                            <span className="book-tag">[{book.categoryName || 'Domestic'}]</span>
                                         </div>
                                         <div className="book-meta">
-                                            {book.authors} (Author) | {book.publisher} | {book.publishDate || '2025-01'}
+                                            {book.authors} | {book.publisher} | {book.publishDate || '2025-01'}
                                         </div>
                                         <div className="book-price-row">
                                             <span className="std-price">{Math.floor(stdPrice).toLocaleString()} 원</span>

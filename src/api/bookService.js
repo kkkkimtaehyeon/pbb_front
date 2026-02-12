@@ -1,6 +1,6 @@
 import client from './client';
 
-export const getBookList = async (page = 0, size = 10, sort = []) => {
+export const getBookList = async (page = 0, size = 10, sort = [], categoryId = null) => {
     try {
         const params = {
             page,
@@ -8,6 +8,9 @@ export const getBookList = async (page = 0, size = 10, sort = []) => {
         };
         if (sort.length > 0) {
             params.sort = sort;
+        }
+        if (categoryId) {
+            params.categoryId = categoryId;
         }
         const response = await client.get('/v2/books', { params });
         return response.data;
