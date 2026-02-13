@@ -59,3 +59,8 @@ export const confirmAdminClaim = async (claimId) => {
     const response = await client.post(`/admin/orders/claims/${claimId}/confirm`);
     return response.data;
 };
+
+export const getDashboardStats = async () => {
+    const response = await client.get('/admin/dashboard');
+    return response.data;
+};
