@@ -4,7 +4,8 @@ export const requestPayment = async (paymentData) => {
     // paymentData: { orderId, amount }
     try {
         const response = await client.post('/v2/payments', paymentData);
-        return response.data;
+        // Expecting response: { success: true, data: { status, orderId, amount, message }, meta: ... }
+        return response;
     } catch (error) {
         console.error('Error requesting payment:', error);
         throw error;

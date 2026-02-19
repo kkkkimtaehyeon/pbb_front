@@ -2,9 +2,10 @@ import client from './client';
 
 export const createOrder = async (orderData) => {
     try {
-        // orderData: { items: [{ productId, price, quantity }] }
+        // orderData: { items: [{ productId, discountAmount, price, quantity }], deliveryAddressId }
         const response = await client.post('/v2/orders', orderData);
-        return response.data;
+        // Expecting response: { success: true, data: { orderId, paymentAmount }, meta: ... }
+        return response;
     } catch (error) {
         console.error('Error creating order:', error);
         throw error;

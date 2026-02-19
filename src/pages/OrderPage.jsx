@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { requestPayment } from '../api/paymentService';
+import { createOrder } from '../api/orderService';
 import { getDefaultDeliveryAddress, getDeliveryAddresses } from '../api/deliveryService';
 import './OrderPage.css';
 
@@ -23,14 +24,20 @@ const OrderPage = () => {
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [addressList, setAddressList] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [orderId, setOrderId] = useState(null);
+    const [paymentAmount, setPaymentAmount] = useState(0);
 
     // Initial fetch of default address
-    useState(() => {
+    // Initial fetch of default address
+    useEffect(() => {
         async function fetchDefaultAddress() {
             try {
                 const data = await getDefaultDeliveryAddress();
                 const addr = Array.isArray(data) ? data[0] : data;
                 setDeliveryAddress(addr);
+                // setSelectedAddressId moved to useEffect below to avoid double render/updates if possible, or keep here.
+                // Actually, if we set deliveryAddress, the other useEffect might trigger `createOrder`.
+                // Let's set selectedAddressId here too to be safe for the modal.
                 if (addr) setSelectedAddressId(addr.id);
             } catch (error) {
                 console.error("Failed to fetch default address", error);
@@ -38,6 +45,35 @@ const OrderPage = () => {
         }
         fetchDefaultAddress();
     }, []);
+
+    // Create Order when delivery address is set
+    useEffect(() => {
+        if (deliveryAddress && items.length > 0) {
+            const fetchOrder = async () => {
+                try {
+                    const orderData = {
+                        items: items.map(item => ({
+                            productId: item.productId,
+                            discountAmount: 0,
+                            price: item.price,
+                            quantity: item.quantity
+                        })),
+                        deliveryAddressId: deliveryAddress.id
+                    };
+                    const response = await createOrder(orderData);
+                    if (response.success) {
+                        setOrderId(response.data.orderId);
+                        setPaymentAmount(response.data.paymentAmount);
+                    } else {
+                        console.error("Order creation failed:", response.meta?.message);
+                    }
+                } catch (error) {
+                    console.error("Failed to create order", error);
+                }
+            };
+            fetchOrder();
+        }
+    }, [deliveryAddress, items]);
 
     const handleOpenAddressModal = async () => {
         setIsAddressModalOpen(true);
@@ -67,28 +103,32 @@ const OrderPage = () => {
             return;
         }
 
+        if (!orderId) {
+            alert("주문 생성 중입니다. 잠시만 기다려주세요.");
+            return;
+        }
+
         try {
-            // Request payment to backend with items and delivery address
-            // Backend will create order and return payment info
+            // Request payment to backend with orderId and amount
             const paymentPayload = {
-                items: items,
-                deliveryAddressId: deliveryAddress.id
+                orderId: orderId,
+                amount: paymentAmount || finalPrice // Fallback to calculated price if 0 (should use response ideally)
             };
 
             const response = await requestPayment(paymentPayload);
 
-            if (response.status === 'REQUIRES_PAYMENT') {
+            if (response.success && response.data.status === 'REQUIRES_PAYMENT') {
                 navigate('/payment/checkout', {
                     state: {
-                        orderId: response.orderId,
-                        amount: response.amount,
+                        orderId: response.data.orderId,
+                        amount: response.data.amount,
                         orderName: items.length > 0 ? items[0].productName + (items.length > 1 ? ` 외 ${items.length - 1}건` : '') : '도서 주문',
                         customerName: deliveryAddress.receiver,
-                        customerEmail: 'customer@example.com' // TODO: Get from user profile if available
+                        customerEmail: 'customer@example.com'
                     }
                 });
             } else {
-                alert(`알 수 없는 상태: ${response.message || response.status}`);
+                alert(`결제 요청 실패: ${response.meta?.message || response.message || '알 수 없는 오류'}`);
             }
 
         } catch (err) {

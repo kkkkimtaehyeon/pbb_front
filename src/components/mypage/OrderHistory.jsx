@@ -176,7 +176,7 @@ const OrderHistory = () => {
                                                 {/* Option / Quantity display - assuming free size/option for now or extracting from name */}
                                                 {item.quantity}개
                                             </div>
-                                            <div style={{ fontWeight: 'bold' }}>{(item.price || 0).toLocaleString()}원</div>
+                                            <div style={{ fontWeight: 'bold' }}>{(item.price * item.quantity || 0).toLocaleString()}원</div>
                                         </div>
                                     </div>
 
